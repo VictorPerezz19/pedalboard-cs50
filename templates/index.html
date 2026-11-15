@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}Mis presets{% endblock %}
+{% block main %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Mis presets</h1>
+        <a class="btn btn-accent" href="/builder">+ Nueva pedalera</a>
+    </div>
+
+    {% if presets %}
+        <div class="row g-4">
+            {% for preset in presets %}
+                <div class="col-md-6 col-xl-4">
+                    <div class="card-panel h-100 p-3 d-flex flex-column">
+                        <h2 class="h5">{{ preset["name"] }}</h2>
+                        {% if preset["description"] %}
+                            <p class="text-secondary small">{{ preset["description"] }}</p>
+                        {% endif %}
+                        {% include "_chain.html" %}
+                        <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                            <small class="text-secondary">{{ preset["created_at"] }}</small>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-sm btn-outline-light" href="/builder?from={{ preset['id'] }}">Duplicar / editar</a>
+                                <form action="/delete" method="post" onsubmit="return confirm('¿Eliminar este preset?');">
+                                    <input type="hidden" name="preset_id" value="{{ preset['id'] }}">
+                                    <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card-panel text-center p-5">
+            <p class="lead mb-3">Todavía no has guardado ninguna pedalera.</p>
+            <a class="btn btn-accent me-2" href="/builder">Crear la primera</a>
+            <a class="btn btn-outline-light" href="/explore">Explorar tonos</a>
+        </div>
+    {% endif %}
+{% endblock %}

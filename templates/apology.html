@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}Error {{ top }}{% endblock %}
+{% block main %}
+    <div class="text-center py-5">
+        <h1 class="display-1 fw-bold text-accent">{{ top }}</h1>
+        <p class="lead">{{ bottom }}</p>
+        <a class="btn btn-outline-light" href="javascript:history.back()">Volver</a>
+    </div>
+{% endblock %}

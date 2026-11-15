@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Explore{% endblock %}
+{% block main %}
+    <h1 class="h3 mb-1">Explora tonos famosos</h1>
+    <p class="text-secondary mb-4">Aproximaciones con el equipo del catálogo. Duplícalas en el Builder y ajústalas a tu gusto.</p>
+
+    <div class="row g-4">
+        {% for preset in presets %}
+            <div class="col-md-6 col-xl-4">
+                <div class="card-panel h-100 p-3 d-flex flex-column">
+                    <h2 class="h5">{{ preset["name"] }}</h2>
+                    <p class="text-secondary small">{{ preset["description"] }}</p>
+                    {% include "_chain.html" %}
+                    <div class="mt-auto pt-3">
+                        <a class="btn btn-sm btn-accent" href="/builder?from={{ preset['id'] }}">Probar este tono</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-secondary">No hay presets predeterminados todavía.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

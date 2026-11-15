@@ -1,0 +1,14 @@
+{# Parcial: lista ordenada de piezas de un preset. Uso: {% include "_chain.html" %} con "preset" definido #}
+<ol class="chain list-unstyled mb-0">
+    {% for item in preset["items"] %}
+        <li class="chain-item">
+            <span class="badge rounded-pill {{ 'text-bg-warning' if item['type'] == 'amp' else 'text-bg-danger' }}">{{ item["position"] }}</span>
+            <strong>{{ item["name"] }}</strong>
+            <small class="text-secondary d-block">
+                {% for knob, value in (item["settings"] | from_json).items() %}
+                    {{ knob }}: {{ value }}{% if not loop.last %} · {% endif %}
+                {% endfor %}
+            </small>
+        </li>
+    {% endfor %}
+</ol>

@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block title %}Builder{% endblock %}
+
+{% block main %}
+    <div class="row g-4">
+        <!-- Panel lateral: inventario -->
+        <aside class="col-lg-4 col-xl-3">
+            <div class="card-panel p-3 sticky-lg-top sidebar">
+                <h2 class="h6 text-uppercase text-secondary mb-3">Inventario</h2>
+                <p class="small text-secondary">Arrastra a la pedalera o pulsa «+».</p>
+                <div id="gear-list">
+                    <div class="text-secondary small">Cargando catálogo…</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Zona principal -->
+        <section class="col-lg-8 col-xl-9">
+            <div class="card-panel p-3 mb-3">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <label for="preset-name" class="form-label">Nombre del preset</label>
+                        <input id="preset-name" class="form-control" type="text" maxlength="80"
+                               placeholder="Ej. Tono Nirvana">
+                    </div>
+                    <div class="col-md-7">
+                        <label for="preset-description" class="form-label">Descripción (opcional)</label>
+                        <input id="preset-description" class="form-control" type="text" maxlength="300"
+                               placeholder="Ej. Distorsión sucia con chorus en la intro">
+                    </div>
+                </div>
+            </div>
+
+            <div id="builder-alert" class="alert d-none" role="alert"></div>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="h6 text-uppercase text-secondary mb-0">
+                    Guitarra → <span id="board-count">0</span> / 12 piezas → Salida
+                </h2>
+                <div class="d-flex gap-2">
+                    <button id="clear-btn" type="button" class="btn btn-sm btn-outline-secondary">Vaciar</button>
+                    <button id="save-btn" type="button" class="btn btn-sm btn-accent">Guardar preset</button>
+                </div>
+            </div>
+
+            <div id="dropzone" class="dropzone" aria-label="Pedalera"></div>
+            <p class="small text-secondary mt-2">Haz clic en una pieza para ajustar sus perillas. Arrastra las piezas para reordenar la cadena.</p>
+        </section>
+    </div>
+
+    <!-- Modal de perillas -->
+    <div class="modal fade" id="knobModal" tabindex="-1" aria-labelledby="knobModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="knobModalTitle">Ajustes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="knobModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" id="knob-reset" class="btn btn-outline-secondary me-auto">Restablecer a 5</button>
+                    <button type="button" class="btn btn-accent" data-bs-dismiss="modal">Listo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // Preset a precargar (null si se abre el Builder vacío)
+        window.INITIAL_PRESET = {{ initial | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
